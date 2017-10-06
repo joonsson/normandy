@@ -1,5 +1,6 @@
+package se.academy.main;
+
 import javax.swing.*;
-import java.awt.*;
 
 public class Enemy extends Sprite {
     private Bomb bomb;
@@ -21,7 +22,7 @@ public class Enemy extends Sprite {
         return bomb;
     }
     public class Bomb extends Sprite {
-        private final String bombImg = "bomb.png";
+        private final String bombImg = "src/images/bomb.png";
         private boolean destroyed;
 
         public Bomb(int x, int y) {

@@ -1,3 +1,5 @@
+package se.academy.main;
+
 import java.awt.*;
 
 public class Sprite {

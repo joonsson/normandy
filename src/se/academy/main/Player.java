@@ -1,6 +1,7 @@
+package se.academy.main;
+
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.security.Key;
 
 public class Player extends Sprite implements Commons {
     private final int START_X = 640;

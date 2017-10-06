@@ -1,3 +1,5 @@
+package se.academy.main;
+
 import javax.swing.*;
 
 public class Shot extends Sprite {

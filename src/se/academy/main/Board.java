@@ -1,11 +1,9 @@
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+package se.academy.main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -15,6 +13,7 @@ public class Board extends JPanel implements Runnable, Commons {
     private ArrayList<Enemy> enemies;
     private Player player;
     private Shot shot;
+    private Shot shot2;
 
     private final int ENEMY_INIT_X = 150;
     private final int ENEMY_INIT_Y = 5;
@@ -47,16 +46,17 @@ public class Board extends JPanel implements Runnable, Commons {
     public void gameInit() {
         enemies = new ArrayList<>();
         Music music = new Music();
-        music.run();
+        music.start();
 
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 6; j++) {
-                Enemy enemy = new Enemy(ENEMY_INIT_X + 18 * j, ENEMY_INIT_Y + 18 * i);
+            for (int j = 0; j < 12; j++) {
+                Enemy enemy = new Enemy(ENEMY_INIT_X + 50 * j, ENEMY_INIT_Y + 20 * i);
                 enemies.add(enemy);
             }
         }
-        Player player = new Player();
+        player = new Player();
         shot = new Shot();
+        shot2 = new Shot();
 
         if (animator == null || !inGame) {
             animator = new Thread(this);
@@ -86,6 +86,9 @@ public class Board extends JPanel implements Runnable, Commons {
     public void drawShot(Graphics g) {
         if (shot.isVisible()) {
             g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
+        }
+        if (shot2.isVisible()) {
+            g.drawImage(shot2.getImage(), shot2.getX(), shot2.getY(), this);
         }
     }
     public void drawBombing(Graphics g) {
@@ -136,9 +139,11 @@ public class Board extends JPanel implements Runnable, Commons {
         }
         player.act();
 
-        if (shot.isVisible()) {
+        if (shot.isVisible() || shot2.isVisible()) {
             int shotX = shot.getX();
+            int shot2X = shot.getX();
             int shotY = shot.getY();
+            int shot2Y = shot.getY();
 
             for (Enemy e : enemies) {
                 int eX = e.getX();
@@ -148,20 +153,45 @@ public class Board extends JPanel implements Runnable, Commons {
                     if (shotX >= (eX) && shotX <= (eX + ENEMY_WIDTH)
                             && shotY >= (eY) && shotY <= (eY + ENEMY_HEIGHT)) {
                         ImageIcon ii = new ImageIcon(explImg);
+                        e.setImage(ii.getImage());
                         e.setDying(true);
                         deaths++;
                         shot.die();
                         Explosion exp = new Explosion();
-                        exp.run();
+                        exp.start();
+                    }
+                }
+                if (e.isVisible() && shot2.isVisible()) {
+                    if (shot2X >= (eX) && shot2X <= (eX + ENEMY_WIDTH)
+                            && shot2Y >= (eY) && shot2Y <= (eY + ENEMY_HEIGHT)) {
+                        ImageIcon ii = new ImageIcon(explImg);
+                        e.setImage(ii.getImage());
+                        e.setDying(true);
+                        deaths++;
+                        shot2.die();
+                        Explosion exp = new Explosion();
+                        exp.start();
                     }
                 }
             }
-            int y = shot.getY();
-            y -= 4;
-            if (y < 0) {
-                shot.die();
-            } else {
-                shot.setY(y);
+            if (shot.isVisible()) {
+                int y = shot.getY();
+                y -= 4;
+                if (y < 0) {
+                    shot.die();
+                } else {
+                    shot.setY(y);
+                }
+            }
+            if (shot2.isVisible()) {
+
+                int y = shot2.getY();
+                y -= 4;
+                if (y < 0) {
+                    shot2.die();
+                } else {
+                    shot2.setY(y);
+                }
             }
         }
 
@@ -197,7 +227,7 @@ public class Board extends JPanel implements Runnable, Commons {
             }
         }
 
-        Random generator = new Random();
+        Random generator = new Random(24842);
 
         for (Enemy enemy : enemies) {
             int shot = generator.nextInt(15);
@@ -274,8 +304,12 @@ public class Board extends JPanel implements Runnable, Commons {
                 if (inGame) {
                     if (!shot.isVisible()) {
                         Shoot shoot = new Shoot();
-                        shot = new Shot(x, y);
-                        shoot.run();
+                        shot = new Shot(x - 4, y);
+                        shoot.start();
+                    } else if (!shot2.isVisible()) {
+                        Shoot shoot = new Shoot();
+                        shot2 = new Shot(x + 20, y);
+                        shoot.start();
                     }
                 }
             }
