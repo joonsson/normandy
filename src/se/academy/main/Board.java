@@ -1,5 +1,7 @@
 package se.academy.main;
 
+import javafx.scene.media.MediaPlayer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -16,6 +18,7 @@ public class Board extends JPanel implements Runnable, Commons {
     private Player player;
     private Shot shot;
     private Shot shot2;
+    private Music music;
 
     private final int ENEMY_INIT_X = 150;
     private final int ENEMY_INIT_Y = 5;
@@ -35,6 +38,8 @@ public class Board extends JPanel implements Runnable, Commons {
         initBoard();
     }
     private void initBoard() {
+        music = new Music();
+        music.start();
         addKeyListener(new TAdapter());
         setFocusable(true);
         d = new Dimension(BOARD_WIDTH, BOARD_HEIGHT);
@@ -50,8 +55,6 @@ public class Board extends JPanel implements Runnable, Commons {
     }
     public void gameInit() {
         enemies = new ArrayList<>();
-        Music music = new Music();
-        music.start();
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 12; j++) {
@@ -211,25 +214,25 @@ public class Board extends JPanel implements Runnable, Commons {
                 if (e.isVisible() && shot.isVisible()) {
                     if (shotX >= (eX) && shotX <= (eX + ENEMY_WIDTH)
                             && shotY >= (eY) && shotY <= (eY + ENEMY_HEIGHT)) {
+                        Explosion exp = new Explosion();
+                        exp.start();
                         ImageIcon ii = new ImageIcon(explImg);
                         e.setImage(ii.getImage());
                         e.setDying(true);
                         deaths++;
                         shot.die();
-                        Explosion exp = new Explosion();
-                        exp.start();
                     }
                 }
                 if (e.isVisible() && shot2.isVisible()) {
                     if (shot2X >= (eX) && shot2X <= (eX + ENEMY_WIDTH)
                             && shot2Y >= (eY) && shot2Y <= (eY + ENEMY_HEIGHT)) {
+                        Explosion exp = new Explosion();
+                        exp.start();
                         ImageIcon ii = new ImageIcon(explImg);
                         e.setImage(ii.getImage());
                         e.setDying(true);
                         deaths++;
                         shot2.die();
-                        Explosion exp = new Explosion();
-                        exp.start();
                     }
                 }
             }
@@ -241,25 +244,25 @@ public class Board extends JPanel implements Runnable, Commons {
                     if (e.isVisible() && shot.isVisible()) {
                         if (shotX >= (eX) && shotX <= (eX + ENEMY_WIDTH)
                                 && shotY >= (eY) && shotY <= (eY + ENEMY_HEIGHT)) {
+                            Explosion exp = new Explosion();
+                            exp.start();
                             ImageIcon ii = new ImageIcon(explImg);
                             e.setImage(ii.getImage());
                             e.setDying(true);
                             deaths++;
                             shot.die();
-                            Explosion exp = new Explosion();
-                            exp.start();
                         }
                     }
                     if (e.isVisible() && shot2.isVisible()) {
                         if (shot2X >= (eX) && shot2X <= (eX + ENEMY_WIDTH)
                                 && shot2Y >= (eY) && shot2Y <= (eY + ENEMY_HEIGHT)) {
+                            Explosion exp = new Explosion();
+                            exp.start();
                             ImageIcon ii = new ImageIcon(explImg);
                             e.setImage(ii.getImage());
                             e.setDying(true);
                             deaths++;
                             shot2.die();
-                            Explosion exp = new Explosion();
-                            exp.start();
                         }
                     }
                 }
@@ -272,25 +275,25 @@ public class Board extends JPanel implements Runnable, Commons {
                     if (e.isVisible() && shot.isVisible()) {
                         if (shotX >= (eX) && shotX <= (eX + ENEMY_WIDTH)
                                 && shotY >= (eY) && shotY <= (eY + ENEMY_HEIGHT)) {
+                            Explosion exp = new Explosion();
+                            exp.start();
                             ImageIcon ii = new ImageIcon(explImg);
                             e.setImage(ii.getImage());
                             e.setDying(true);
                             deaths++;
                             shot.die();
-                            Explosion exp = new Explosion();
-                            exp.start();
                         }
                     }
                     if (e.isVisible() && shot2.isVisible()) {
                         if (shot2X >= (eX) && shot2X <= (eX + ENEMY_WIDTH)
                                 && shot2Y >= (eY) && shot2Y <= (eY + ENEMY_HEIGHT)) {
+                            Explosion exp = new Explosion();
+                            exp.start();
                             ImageIcon ii = new ImageIcon(explImg);
                             e.setImage(ii.getImage());
                             e.setDying(true);
                             deaths++;
                             shot2.die();
-                            Explosion exp = new Explosion();
-                            exp.start();
                         }
                     }
                 }
