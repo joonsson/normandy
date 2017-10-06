@@ -81,7 +81,7 @@ public class Board extends JPanel implements Runnable, Commons {
                 enemy.die();
             }
         }
-        if (speedUp) {
+        if (speedUp && enemies2 != null) {
             for (Enemy enemy : enemies2) {
                 if (enemy.isVisible()) {
                     g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), this);
@@ -91,7 +91,7 @@ public class Board extends JPanel implements Runnable, Commons {
                 }
             }
         }
-        if (speedUp2) {
+        if (speedUp2 && enemies3 != null) {
             for (Enemy enemy : enemies3) {
                 if (enemy.isVisible()) {
                     g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), this);
@@ -126,7 +126,7 @@ public class Board extends JPanel implements Runnable, Commons {
                     g.drawImage(b.getImage(), b.getX(), b.getY(), this);
                 }
             }
-        if (speedUp) {
+        if (speedUp && enemies2 != null) {
             for (Enemy e : enemies2) {
                 Bomb b = e.getBomb();
                     if (!b.isDestroyed()) {
@@ -134,7 +134,7 @@ public class Board extends JPanel implements Runnable, Commons {
                     }
                 }
             }
-        if (speedUp2) {
+        if (speedUp2 && enemies3 != null) {
             for (Enemy e : enemies3) {
                 Bomb b = e.getBomb();
                 if (!b.isDestroyed()) {
@@ -402,7 +402,7 @@ public class Board extends JPanel implements Runnable, Commons {
                 enemy.act(direction);
             }
         }
-        if (speedUp && enemies2.size() != 0) {
+        if (speedUp && enemies2 != null) {
             it = enemies2.iterator();
             while (it.hasNext()) {
                 Enemy enemy = (Enemy) it.next();
@@ -411,11 +411,13 @@ public class Board extends JPanel implements Runnable, Commons {
                     if (!speedUp && y > 200) {
                         speedUp = true;
                         Enemy.speed *= 2;
+                        Bomb.speed += 1;
                         newWave = true;
                     }
                     if (!speedUp2 && y > 400) {
                         speedUp2 = true;
                         Enemy.speed *= 2;
+                        Bomb.speed += 1;
                         newWave = true;
                     }
                     if (y > GROUND - ENEMY_HEIGHT) {
@@ -426,7 +428,7 @@ public class Board extends JPanel implements Runnable, Commons {
                 }
             }
         }
-        if (speedUp2 && enemies3.size() != 0) {
+        if (speedUp2 && enemies3 != null) {
             it = enemies3.iterator();
             while (it.hasNext()) {
                 Enemy enemy = (Enemy) it.next();
@@ -477,14 +479,14 @@ public class Board extends JPanel implements Runnable, Commons {
                 }
             }
             if (!b.isDestroyed()) {
-                b.setY(b.getY() + 1);
+                b.setY(b.getY() + Bomb.speed);
 
                 if (b.getY() >= GROUND - BOMB_HEIGHT) {
                     b.setDestroyed(true);
                 }
             }
         }
-        if (speedUp) {
+        if (speedUp && enemies2 != null) {
             boolean hasFired = false;
             for (Enemy enemy : enemies2) {
                 int shot = generator.nextInt(15);
@@ -510,7 +512,7 @@ public class Board extends JPanel implements Runnable, Commons {
                     }
                 }
                 if (!b.isDestroyed()) {
-                    b.setY(b.getY() + 1);
+                    b.setY(b.getY() + Bomb.speed);
 
                     if (b.getY() >= GROUND - BOMB_HEIGHT) {
                         b.setDestroyed(true);
@@ -518,7 +520,7 @@ public class Board extends JPanel implements Runnable, Commons {
                 }
             }
         }
-        if (speedUp2) {
+        if (speedUp2 && enemies3 != null) {
             boolean hasFired = false;
             for (Enemy enemy : enemies3) {
                 int shot = generator.nextInt(15);
@@ -544,7 +546,7 @@ public class Board extends JPanel implements Runnable, Commons {
                     }
                 }
                 if (!b.isDestroyed()) {
-                    b.setY(b.getY() + 1);
+                    b.setY(b.getY() + Bomb.speed);
 
                     if (b.getY() >= GROUND - BOMB_HEIGHT) {
                         b.setDestroyed(true);

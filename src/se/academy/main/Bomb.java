@@ -5,6 +5,7 @@ import javax.swing.*;
 public class Bomb extends Sprite {
     private final String bombImg = "src/images/bomb.png";
     private boolean destroyed;
+    public static int speed = 1;
 
     public Bomb(int x, int y) {
         initBomb(x, y);
