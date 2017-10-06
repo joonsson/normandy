@@ -1,7 +1,11 @@
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -147,6 +151,10 @@ public class Board extends JPanel implements Runnable, Commons {
                         e.setDying(true);
                         deaths++;
                         shot.die();
+                        String bip = "src/sounds/explosion.wav";
+                        Media hit = new Media(new File(bip).toURI().toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(hit);
+                        mediaPlayer.play();
                     }
                 }
             }
@@ -267,6 +275,10 @@ public class Board extends JPanel implements Runnable, Commons {
             if (key == KeyEvent.VK_SPACE) {
                 if (inGame) {
                     if (!shot.isVisible()) {
+                        String bip = "src/sounds/shoot.wav";
+                        Media hit = new Media(new File(bip).toURI().toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(hit);
+                        mediaPlayer.play();
                         shot = new Shot(x, y);
                     }
                 }
