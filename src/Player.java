@@ -5,7 +5,7 @@ import java.security.Key;
 public class Player extends Sprite implements Commons {
     private final int START_X = 640;
     private final int START_Y = 600;
-    private final String playerImg = "src/images/player.png";
+    private final String playerImg = "src/images/craft.png";
     private int width;
 
     public Player() {

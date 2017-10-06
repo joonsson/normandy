@@ -151,10 +151,8 @@ public class Board extends JPanel implements Runnable, Commons {
                         e.setDying(true);
                         deaths++;
                         shot.die();
-                        String bip = "src/sounds/explosion.wav";
-                        Media hit = new Media(new File(bip).toURI().toString());
-                        MediaPlayer mediaPlayer = new MediaPlayer(hit);
-                        mediaPlayer.play();
+                        Explosion exp = new Explosion();
+                        exp.run();
                     }
                 }
             }
@@ -275,11 +273,9 @@ public class Board extends JPanel implements Runnable, Commons {
             if (key == KeyEvent.VK_SPACE) {
                 if (inGame) {
                     if (!shot.isVisible()) {
-                        String bip = "src/sounds/shoot.wav";
-                        Media hit = new Media(new File(bip).toURI().toString());
-                        MediaPlayer mediaPlayer = new MediaPlayer(hit);
-                        mediaPlayer.play();
+                        Shoot shoot = new Shoot();
                         shot = new Shot(x, y);
+                        shoot.run();
                     }
                 }
             }
