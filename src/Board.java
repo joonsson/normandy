@@ -53,7 +53,7 @@ public class Board extends JPanel implements Runnable, Commons {
         shot = new Shot();
 
         if (animator == null || !inGame) {
-            animator = new Thread((this);
+            animator = new Thread(this);
             animator.start();
         }
     }
