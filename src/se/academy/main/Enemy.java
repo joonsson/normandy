@@ -1,9 +1,11 @@
 package se.academy.main;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class Enemy extends Sprite {
-    private Bomb bomb;
+    private ArrayList<Bomb> bombs;
+    public static int speed;
     private final String enemyImg = "src/images/alien.png";
     public Enemy(int x, int y) {
         initEnemy(x, y);
@@ -11,37 +13,21 @@ public class Enemy extends Sprite {
     private void initEnemy(int x, int y) {
         this.x = x;
         this.y = y;
-        bomb = new Bomb(x, y);
+        speed = 2;
+        bombs = new ArrayList<>();
         ImageIcon ii = new ImageIcon(enemyImg);
         setImage(ii.getImage());
     }
+    public void addBomb(Bomb b) {
+        bombs.add(b);
+    }
+    public void removeBomb(Bomb b) {
+        bombs.remove(b);
+    }
     public void act(int direction) {
-        this.x += direction;
+        this.x += direction * speed;
     }
-    public Bomb getBomb() {
-        return bomb;
-    }
-    public class Bomb extends Sprite {
-        private final String bombImg = "src/images/bomb.png";
-        private boolean destroyed;
-
-        public Bomb(int x, int y) {
-            initBomb(x, y);
-        }
-        private void initBomb(int x, int y) {
-            setDestroyed(true);
-            this.x = x;
-            this.y = y;
-            ImageIcon ii = new ImageIcon(bombImg);
-            setImage(ii.getImage());
-        }
-
-        public boolean isDestroyed() {
-            return destroyed;
-        }
-
-        public void setDestroyed(boolean destroyed) {
-            this.destroyed = destroyed;
-        }
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
     }
 }

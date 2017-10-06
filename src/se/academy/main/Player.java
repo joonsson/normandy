@@ -31,10 +31,10 @@ public class Player extends Sprite implements Commons {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_LEFT) {
-            dx = -2;
+            dx = -4;
         }
         if (key == KeyEvent.VK_RIGHT) {
-            dx = 2;
+            dx = 4;
         }
     }
     public void keyReleased(KeyEvent e) {
