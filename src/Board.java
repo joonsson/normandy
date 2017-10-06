@@ -18,7 +18,7 @@ public class Board extends JPanel implements Runnable, Commons {
     private int deaths = 0;
 
     private boolean inGame = true;
-    private final String explImg = "src/images/explosion";
+    private final String explImg = "src/images/explosion.png";
     private String message = "Game over!";
 
     private Thread animator;
@@ -42,6 +42,8 @@ public class Board extends JPanel implements Runnable, Commons {
     }
     public void gameInit() {
         enemies = new ArrayList<>();
+        Music music = new Music();
+        music.run();
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
