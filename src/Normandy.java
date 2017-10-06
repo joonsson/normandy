@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.EventQueue;
 
-public class Normandy extends JFrame {
+public class Normandy extends JFrame implements Commons {
     public Normandy() {
         initUI();
     }
