@@ -24,4 +24,5 @@ public class Bomb extends Sprite {
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
     }
+
 }

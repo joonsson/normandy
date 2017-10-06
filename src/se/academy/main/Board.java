@@ -117,29 +117,25 @@ public class Board extends JPanel implements Runnable, Commons {
         }
     }
     public void drawBombing(Graphics g) {
-        Toolkit.getDefaultToolkit().sync();
         for (Enemy e : enemies) {
-            for (Bomb b : e.getBombs()) {
+            Bomb b = e.getBomb();
                 if (!b.isDestroyed()) {
                     g.drawImage(b.getImage(), b.getX(), b.getY(), this);
                 }
             }
-        }
         if (speedUp) {
             for (Enemy e : enemies2) {
-                for (Bomb b : e.getBombs()) {
+                Bomb b = e.getBomb();
                     if (!b.isDestroyed()) {
                         g.drawImage(b.getImage(), b.getX(), b.getY(), this);
                     }
                 }
             }
-        }
         if (speedUp2) {
             for (Enemy e : enemies3) {
-                for (Bomb b : e.getBombs()) {
-                    if (!b.isDestroyed()) {
-                        g.drawImage(b.getImage(), b.getX(), b.getY(), this);
-                    }
+                Bomb b = e.getBomb();
+                if (!b.isDestroyed()) {
+                    g.drawImage(b.getImage(), b.getX(), b.getY(), this);
                 }
             }
         }
@@ -453,15 +449,49 @@ public class Board extends JPanel implements Runnable, Commons {
         }
 
         Random generator = new Random(24842);
-
+        boolean fired = false;
         for (Enemy enemy : enemies) {
             int shot = generator.nextInt(15);
-            if (shot == CHANCE && enemy.isVisible() && enemy.getBombs().size() < 2) {
-                Bomb b = new Bomb(enemy.getX(), enemy.getY());
+            Bomb b = enemy.getBomb();
+            if (shot <= CHANCE && enemy.isVisible() && b.isDestroyed() && !fired) {
+                b.setX(enemy.getX());
+                b.setY(enemy.getY());
                 b.setDestroyed(false);
-                enemy.addBomb(b);
+                fired = true;
             }
-            for (Bomb b : enemy.getBombs()) {
+            int bombX = b.getX();
+            int bombY = b.getY();
+            int pX = player.getX();
+            int pY = player.getY();
+
+            if (player.isVisible() && !b.isDestroyed()) {
+                if (bombX >= (pX) && bombX <= (pX + PLAYER_WIDTH)
+                        && bombY >= (pY) && bombY <= (pY + PLAYER_HEIGHT)) {
+                    ImageIcon ii = new ImageIcon(explImg);
+                    player.setImage(ii.getImage());
+                    player.setDying(true);
+                    b.setDestroyed(true);
+                }
+            }
+            if (!b.isDestroyed()) {
+                b.setY(b.getY() + 1);
+
+                if (b.getY() >= GROUND - BOMB_HEIGHT) {
+                    b.setDestroyed(true);
+                }
+            }
+        }
+        if (speedUp) {
+            boolean hasFired = false;
+            for (Enemy enemy : enemies2) {
+                int shot = generator.nextInt(15);
+                Bomb b = enemy.getBomb();
+                if (shot == CHANCE && enemy.isVisible() && b.isDestroyed() && !hasFired) {
+                    b.setX(enemy.getX());
+                    b.setY(enemy.getY());
+                    b.setDestroyed(false);
+                    hasFired = true;
+                }
                 int bombX = b.getX();
                 int bombY = b.getY();
                 int pX = player.getX();
@@ -481,75 +511,40 @@ public class Board extends JPanel implements Runnable, Commons {
 
                     if (b.getY() >= GROUND - BOMB_HEIGHT) {
                         b.setDestroyed(true);
-                        enemy.removeBomb(b);
-                    }
-                }
-            }
-        }
-        if (speedUp) {
-            for (Enemy enemy : enemies2) {
-                int shot = generator.nextInt(15);
-                if (shot == CHANCE && enemy.isVisible() && enemy.getBombs().size() < 2) {
-                    Bomb b = new Bomb(enemy.getX(), enemy.getY());
-                    b.setDestroyed(false);
-                    enemy.addBomb(b);
-                }
-                for (Bomb b : enemy.getBombs()) {
-                    int bombX = b.getX();
-                    int bombY = b.getY();
-                    int pX = player.getX();
-                    int pY = player.getY();
-
-                    if (player.isVisible() && !b.isDestroyed()) {
-                        if (bombX >= (pX) && bombX <= (pX + PLAYER_WIDTH)
-                                && bombY >= (pY) && bombY <= (pY + PLAYER_HEIGHT)) {
-                            ImageIcon ii = new ImageIcon(explImg);
-                            player.setImage(ii.getImage());
-                            player.setDying(true);
-                            b.setDestroyed(true);
-                        }
-                    }
-                    if (!b.isDestroyed()) {
-                        b.setY(b.getY() + 1);
-
-                        if (b.getY() >= GROUND - BOMB_HEIGHT) {
-                            b.setDestroyed(true);
-                            enemy.removeBomb(b);
-                        }
                     }
                 }
             }
         }
         if (speedUp2) {
+            boolean hasFired = false;
             for (Enemy enemy : enemies3) {
                 int shot = generator.nextInt(15);
-                if (shot == CHANCE && enemy.isVisible() && enemy.getBombs().size() < 2) {
-                    Bomb b = new Bomb(enemy.getX(), enemy.getY());
+                Bomb b = enemy.getBomb();
+                if (shot == CHANCE && enemy.isVisible() && b.isDestroyed() && !hasFired) {
+                    b.setX(enemy.getX());
+                    b.setY(enemy.getY());
                     b.setDestroyed(false);
-                    enemy.addBomb(b);
+                    hasFired = true;
                 }
-                for (Bomb b : enemy.getBombs()) {
-                    int bombX = b.getX();
-                    int bombY = b.getY();
-                    int pX = player.getX();
-                    int pY = player.getY();
+                int bombX = b.getX();
+                int bombY = b.getY();
+                int pX = player.getX();
+                int pY = player.getY();
 
-                    if (player.isVisible() && !b.isDestroyed()) {
-                        if (bombX >= (pX) && bombX <= (pX + PLAYER_WIDTH)
-                                && bombY >= (pY) && bombY <= (pY + PLAYER_HEIGHT)) {
-                            ImageIcon ii = new ImageIcon(explImg);
-                            player.setImage(ii.getImage());
-                            player.setDying(true);
-                            b.setDestroyed(true);
-                        }
+                if (player.isVisible() && !b.isDestroyed()) {
+                    if (bombX >= (pX) && bombX <= (pX + PLAYER_WIDTH)
+                            && bombY >= (pY) && bombY <= (pY + PLAYER_HEIGHT)) {
+                        ImageIcon ii = new ImageIcon(explImg);
+                        player.setImage(ii.getImage());
+                        player.setDying(true);
+                        b.setDestroyed(true);
                     }
-                    if (!b.isDestroyed()) {
-                        b.setY(b.getY() + 1);
+                }
+                if (!b.isDestroyed()) {
+                    b.setY(b.getY() + 1);
 
-                        if (b.getY() >= GROUND - BOMB_HEIGHT) {
-                            b.setDestroyed(true);
-                            enemy.removeBomb(b);
-                        }
+                    if (b.getY() >= GROUND - BOMB_HEIGHT) {
+                        b.setDestroyed(true);
                     }
                 }
             }
